@@ -108,27 +108,27 @@
     <button id="backToTop" class="fixed bottom-10 right-10 z-50 bg-rosePink text-white p-4 rounded-full shadow-lg opacity-50 hover:opacity-100 transition-opacity ease-in-out" title="Back to Top">
         ↑
     </button>
+
     <script>
-    // Get the button
-    const backToTopButton = document.getElementById("backToTop");
+        // Back to Top Button functionality
+        const backToTopButton = document.getElementById("backToTop");
 
-    // Show the button when the user scrolls down 100px
-    window.onscroll = function() {
-        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            backToTopButton.style.display = "block";
-        } else {
-            backToTopButton.style.display = "none";
-        }
-    };
+        // Show the button when the user scrolls down 100px
+        window.onscroll = function() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
+        };
 
-    // Scroll to the top when the button is clicked
-    backToTopButton.onclick = function() {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    };
+        // Scroll to the top when the button is clicked
+        backToTopButton.onclick = function() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        };
     </script>
-    
 </body>
 </html>
