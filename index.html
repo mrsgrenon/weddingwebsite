@@ -40,6 +40,36 @@
         html { scroll-behavior: smooth; }
         .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease-out, transform 1s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Styles for the Back to Top button */
+        .back-to-top-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;  /* Adjust size */
+            height: 70px; /* Adjust size */
+            padding: 20px;
+        }
+        
+        .button-text {
+            position: absolute;
+            top: -10px; /* Adjust to position the text just above the edge */
+            font-size: 12px; /* Adjust font size */
+            white-space: nowrap;
+            text-align: center;
+            transform: rotate(-90deg);
+            color: #fff;
+        }
+
+        .back-to-top-button:hover .button-text {
+            color: #f8f8f8; /* Change to the hover color if needed */
+        }
+
+        /* Hover effect */
+        .back-to-top-button:hover {
+            opacity: 1; /* Ensure full opacity on hover */
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -105,7 +135,8 @@
     </section>
 
     <!-- Back to Top Button -->
-    <button id="backToTop" class="fixed bottom-10 right-10 z-50 bg-rosePink text-white p-4 rounded-full shadow-lg opacity-50 hover:opacity-100 transition-opacity ease-in-out" title="Back to Top">
+    <button id="backToTop" class="back-to-top-button fixed bottom-10 right-10 z-50 bg-rosePink text-white p-4 rounded-full shadow-lg opacity-50 hover:opacity-100 transition-opacity ease-in-out" title="Back to Top">
+        <span class="button-text">Back to Top</span>
         ↑
     </button>
 
