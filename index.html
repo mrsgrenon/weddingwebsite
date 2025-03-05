@@ -5,102 +5,194 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Wedding - Yen & Michael</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forestGreen: '#0B3D2E',
+                        rosePink: '#B76E79',
+                        wineRed: '#DB0F0F'
+                    }
+                }
+            }
+        };
+        function countdown() {
+            const weddingDate = new Date('2026-04-18T05:00:00Z').getTime();
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const timeLeft = weddingDate - now;
+                if (timeLeft > 0) {
+                    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                    document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                } else {
+                    document.getElementById("countdown").innerHTML = "It's Wedding Time!";
+                }
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+    </script>
     <style>
-        /* Slideshow styling */
-        .slideshow-container {
-            position: relative;
-            max-width: 100%;
+        html { scroll-behavior: smooth; }
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease-out, transform 1s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .slideshow-container { 
+            position: relative; 
+            max-height: 500px; 
             overflow: hidden;
         }
-
-        .mySlides {
-            display: none;
+        .slides { 
+            display: flex; 
+            transition: transform 0.5s ease;
         }
-
-        .fade {
-            animation: fade 1.5s ease-in-out;
+        .slide { 
+            min-width: 100%; 
+            max-height: 500px; 
+            object-fit: cover; 
         }
-
-        @keyframes fade {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
+        .buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
         }
-
         .prev, .next {
-            font-size: 24px;
-            color: #333;
-            font-weight: bold;
-            text-decoration: none;
-            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
             padding: 10px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.6);
-            transition: background-color 0.3s;
-        }
-
-        .prev:hover, .next:hover {
-            background-color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const faders = document.querySelectorAll(".fade-in");
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    }
+                });
+            });
+            faders.forEach(fader => observer.observe(fader));
+        });
+
+        let slideIndex = 0;
+        let slides;
+        
+        function showSlides() {
+            slides = document.querySelectorAll('.slide');
+            slideIndex = (slideIndex + 1) % slides.length;
+            const offset = -slideIndex * 100;
+            document.querySelector('.slides').style.transform = `translateX(${offset}%)`;
+        }
+
+        function moveToSlide(n) {
+            slides = document.querySelectorAll('.slide');
+            slideIndex = (slideIndex + n + slides.length) % slides.length;
+            const offset = -slideIndex * 100;
+            document.querySelector('.slides').style.transform = `translateX(${offset}%)`;
+        }
+
+        setInterval(showSlides, 10000);
+    </script>
 </head>
-<body>
-    <section id="slideshow" class="py-16 px-8 bg-forestGreen text-center fade-in">
-        <h2 class="text-3xl font-bold text-rosePink mb-6">Our Wedding Photos</h2>
+<body class="bg-forestGreen text-white" onload="countdown()">
+    <!-- Hero Section -->
+    <section class="relative h-screen flex flex-col justify-center items-center text-center bg-cover bg-center" style="background-image: url('images/DN_01254.JPG');">
+        <div class="bg-black bg-opacity-50 absolute inset-0"></div>
+        <div class="z-10 fade-in">
+            <h1 class="text-5xl text-white font-bold">Yen & Michael</h1>
+            <p class="text-xl text-white mt-2">We're getting married in Hoi An, Vietnam!</p>
+            <p class="text-2xl text-white mt-4">Countdown: <span id="countdown" class="font-bold"></span></p>
+            <a href="#details" class="mt-6 inline-block bg-rosePink text-white px-6 py-3 rounded-lg text-lg font-semibold">See Details</a>
+        </div>
+    </section>
+    
+    <!-- Wedding Details -->
+    <section id="details" class="py-16 px-8 text-center fade-in">
+        <h2 class="text-3xl font-bold text-rosePink">Wedding Details</h2>
+        <p class="mt-4">Join us on <strong>April 18, 2026</strong> at <strong>Palm Garden Resort</strong> in Hoi An, Vietnam.</p>
+        <p class="mt-2">Ceremony starts at <strong>noon</strong>.</p>
+    </section>
 
-        <!-- Slideshow Container -->
-        <div class="relative">
-            <!-- Slideshow images -->
-            <div class="slideshow-container">
-                <div class="mySlides fade">
-                    <img src="images/DN_01271.JPG" alt="Wedding Photo 1" class="w-full rounded-lg shadow-lg">
-                </div>
-                <div class="mySlides fade">
-                    <img src="images/DN_01303.JPG" alt="Wedding Photo 2" class="w-full rounded-lg shadow-lg">
-                </div>
-                <div class="mySlides fade">
-                    <img src="images/DN_01357.JPG" alt="Wedding Photo 3" class="w-full rounded-lg shadow-lg">
-                </div>
+    <!-- Slideshow Section -->
+    <section class="py-16 px-8 fade-in">
+        <h2 class="text-3xl font-bold text-rosePink text-center">Our Wedding Memories</h2>
+        <div class="slideshow-container mt-8">
+            <div class="slides">
+                <img src="images/DN_01271.JPG" class="slide" alt="Photo 1">
+                <img src="images/DN_01303.JPG" class="slide" alt="Photo 2">
+                <img src="images/DN_01357.JPG" class="slide" alt="Photo 3">
+                <!-- Add more images as needed -->
             </div>
-
-            <!-- Navigation Buttons -->
-            <a class="prev absolute top-1/2 left-5 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg text-forestGreen" href="javascript:void(0)" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next absolute top-1/2 right-5 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg text-forestGreen" href="javascript:void(0)" onclick="plusSlides(1)">&#10095;</a>
+            <div class="buttons">
+                <button class="prev" onclick="moveToSlide(-1)">❮</button>
+                <button class="next" onclick="moveToSlide(1)">❯</button>
+            </div>
         </div>
     </section>
 
+    <!-- Itinerary Section -->
+    <section id="itinerary" class="py-16 px-8 bg-wineRed text-center fade-in">
+        <h2 class="text-3xl font-bold">Itinerary</h2>
+        <div class="mt-6 space-y-4">
+            <p><strong>April 16:</strong> Welcome Dinner</p>
+            <p><strong>April 17:</strong> Beach Day & Group Activities</p>
+            <p><strong>April 18:</strong> Ceremony & Reception</p>
+            <p><strong>April 19:</strong> Farewell Brunch</p>
+        </div>
+    </section>
+
+    <!-- Hashtag Voting Section -->
+    <section id="hashtag-vote" class="py-16 px-8 bg-white text-gray-900 text-center fade-in">
+        <h2 class="text-3xl font-bold text-rosePink">Help Us Choose a Hashtag!</h2>
+        <p class="mt-4">We'd love for you to help us pick the perfect hashtag for our wedding. Please submit your vote below!</p>
+        <div class="mt-6">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSesNQ2ybIhdBJYlckAmdm822sFmchpw8uZKMssYzs5p02Wh6w/viewform?embedded=true" height="520" width="700" class="w-full" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        </div>
+    </section>
+
+    <!-- RSVP Form -->
+    <section id="rsvp" class="py-16 px-8 bg-white text-gray-900 text-center fade-in">
+        <h2 class="text-3xl font-bold text-wineRed">RSVP</h2>
+        <form class="mt-6">
+            <input type="text" placeholder="Your Name" class="border p-2 rounded w-full mb-4">
+            <input type="email" placeholder="Your Email" class="border p-2 rounded w-full mb-4">
+            <button type="submit" class="bg-forestGreen text-white px-6 py-3 rounded-lg">Confirm Attendance</button>
+        </form>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="fixed bottom-10 right-10 z-50 bg-rosePink text-white p-4 rounded-full shadow-lg opacity-50 hover:opacity-100 transition-opacity ease-in-out" title="Back to Top">
+        ↑
+    </button>
+
     <script>
-        let slideIndex = 0;
+        // Back to Top Button functionality
+        const backToTopButton = document.getElementById("backToTop");
 
-        // Show the slides
-        function showSlides() {
-            let slides = document.getElementsByClassName("mySlides");
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";  // Hide all slides
+        // Show the button when the user scrolls down 100px
+        window.onscroll = function() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
             }
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1 } // Reset to first slide
-            slides[slideIndex - 1].style.display = "block";  // Show the current slide
-            setTimeout(showSlides, 10000);  // Change image every 10 seconds
-        }
+        };
 
-        // Move to the next or previous slide
-        function plusSlides(n) {
-            clearTimeout(slideTimeout); // Stop the automatic slide transition
-            let slides = document.getElementsByClassName("mySlides");
-            slideIndex += n;
-            if (slideIndex > slides.length) { slideIndex = 1 }
-            if (slideIndex < 1) { slideIndex = slides.length }
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slides[slideIndex - 1].style.display = "block";
-        }
-
-        // Initial setup to show the first slide and start automatic slideshow
-        document.addEventListener("DOMContentLoaded", function() {
-            showSlides();
-        });
+        // Scroll to the top when the button is clicked
+        backToTopButton.onclick = function() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        };
     </script>
 </body>
 </html>
